@@ -1,6 +1,5 @@
 import os
 import csv
-pyBank = os.path.join('..', 'Resources', 'budget_data.csv')
 
 #Lists
 date = []
@@ -14,12 +13,13 @@ profit_change = 0
 total_profit = 0
 
 #Open CSV
-with open (csvpath, 'r') as csvfile:
-    csvreader = csv.reader(csvfile, delimiter=",")
-    csv_header = next(csvreader) 
+csvpath = os.path.join("/Users/u370166/python-challenge/PyBank/Resources/budget_data.csv")
+with open(csvpath, newline='') as csvfile:
+    csv_reader = csv.reader(csvfile, delimiter=',')
+    csv_header = next(csv_reader)
 
 # The total number of months included in the dataset
-    for row in csvreader:
+    for row in csv_reader:
         month = month + 1
         date.append(row[0])
         
@@ -33,7 +33,7 @@ with open (csvpath, 'r') as csvfile:
         profit_change.append(profit_change)
         total_profit = total_profit + profit_change
         opening_profit = close_profit
-        average = int(total_profit/months)
+        average = int(total_profit/month)
 
 # The greatest increase in profits (date and amount) over the entire period
         greatest_increase = max(profit_change)
