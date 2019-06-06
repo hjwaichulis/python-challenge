@@ -24,8 +24,8 @@ with open(csvpath, newline='') as csvfile:
         date.append(row[0])
         
 # The net total amount of "Profit/Losses" over the entire period        
-        profit.append(row[1])
-        total_revenue = profit + int(row[1])
+        profit.append(int(row[1])
+        total_revenue = profit + (int(row[1]))
 
 # The average of the changes in "Profit/Losses" over the entire period        
         close_profit = int(row[1])
@@ -46,7 +46,7 @@ with open(csvpath, newline='') as csvfile:
 # Print 
     print("Financial Analysis")
     print("----------------------------")
-    print(f"Total Monts: {month}")
+    print(f"Total Months: {month}")
     print(f"Total: ${total_profit}")
     print(f"Average Change: ${profit_change}")
     print(f"Greatest Increase in Profits: {greatest_increase_date} {greatest_increase}")
@@ -58,7 +58,7 @@ analysis = os.path.join('..', 'Resources', 'analysis.txt')
 with open(analysis, 'w') as text:
     analysis.write("Financial Analysis")
     analysis.write("----------------------------")
-    analysis.write(f"Total Monts: {month}")
+    analysis.write(f"Total Months: {month}")
     analysis.write(f"Total: ${total_profit}")
     analysis.write(f"Average Change: ${profit_change}")
     analysis.write(f"Greatest Increase in Profits: {greatest_increase_date} {greatest_increase}")
