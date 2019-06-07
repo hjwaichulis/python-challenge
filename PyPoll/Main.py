@@ -1,64 +1,78 @@
 import os
 import csv
+import collections
+import sys
 
-# variables
-candidates = []
-votes = 0
-vote_count = []
-
-# List 
-election_data = ['1', '2']
-
-# open file 
-csvpath = os.path.join("/Users/u370166/python-challenge/PyBank/Resources/election_data.csv")
-with open(csvpath, newline='') as csvfile:
-    csv_reader = csv.reader(csvfile, delimiter=',')
+#Import csv
+csvpath = os.path.join("/Users/u370166/python-challenge/PyPoll/Resources/election_data.csv")
+with open(csvpath, newline="") as csvfile:
+    csv_reader=csv.reader(csvfile, delimiter=",")
     csv_header = next(csv_reader)
 
-        # loop
-for row in csv_reader:
-    votes = votes + 1
-    candidate = row[2]
-        if candidate in candidates:
-            candidate = candidates.index(candidate)
-            vote_count[candidate] = vote_count[candidate] + 1
+    #my lists
+    vote_count=[]
+    candidate = []
+    votes = {}
+
+    # Total votes
+    for row in csv_reader:
+        vote_count.append(row[0])
+        candidate.append(row[2])
+    vote_total = len(vote_count)
+    
+    # Candidate dictionary 
+    for i in candidate:
+        if i not in votes:
+            votes[i] = 1
         else:
-            candidates.append(candidate)
-            vote_count.append(1)
+            votes[i] += 1
+    voters=dict(sorted(votes.items(), key=lambda x: x[1], reverse=True))
+     
+    # voting list
+    voting_list=list(voters.values())
+    first_place_votes = voting_list[0]
+    second_place_votes =voting_list[1]
+    third_place_votes = voting_list[2]
+    fourth_place_votes = voting_list[3]
+    
+    # voting perecentages
+    first_place_percentage = format(first_place_votes/vote_total*100,'.3f')
+    second_place_percentage = format(second_place_votes/vote_total*100,'.3f')
+    third_place_percentage = format(third_place_votes/vote_total*100,'.3f')
+    fourth_place_percentage = format(fourth_place_votes/vote_total*100,'.3f')
+ 
+    # candidate list 
+    candidate_list=list(voters)
+    winner = candidate_list[0]
+    second_place = candidate_list[1]
+    third_place = candidate_list[2]
+    fourth_place = candidate_list[3]
 
-    # variables
-    percentages = []
-    max_votes = vote_count[0]
-    max_index = 0
 
-    for count in range(len(candidates)):
-        vote_percentage = vote_count[count]/votes*100
-        percentages.append(vote_percentage)
-        if vote_count[count] > max_votes:
-            max_votes = vote_count[count]
-            print(max_votes)
-            max_index = count
-    winner = candidates[max_index]
+#Print out results to terminal
+print("Election Results")
+print("------------------------------")
+print(f'Total Votes: {vote_total}')
+print("------------------------------")
+print(f'{winner}: {first_place_percentage}% ({first_place_votes})')
+print(f'{second_place}: {second_place_percentage}% ({second_place_votes})')
+print(f'{third_place}: {third_place_percentage}% ({third_place_votes})')
+print(f'{fourth_place}: {fourth_place_percentage}% ({fourth_place_votes})')
+print("------------------------------")
+print(f'Winner: {winner}')
+print("------------------------------")
 
-    # Print 
-    print("Election Results")
-    print("-------------------------")
-    print(f"Total Votes: {votes}")
-    for count in range(len(candidates)):
-        print(f"{candidates[count]}: {percentages[count]}% ({vote_counts[count]})")
-    print("-------------------------")
-    print(f"Winner: {winner}")
-    print("-------------------------")
-
-    # txt
-    output_file = election_data.csv[0:-4]
-    write_election_data.csv = f"{output_file}pypoll_results.txt"
-    filewriter = open(write_election_data.csv, mode = 'w')
-    filewriter.write("Election Results\n")
-    filewriter.write("-------------------------\n")
-    filewriter.write(f"Total Votes: {votes}\n")
-    for count in range(len(candidates)):
-        filewriter.write(f"{candidates[count]}: {percentages[count]}% ({vote_count[count]})\n")
-    filewriter.write("-------------------------\n")
-    filewriter.write(f"Winner: {winner}\n")
-    filewriter.write("-------------------------\n")
+#Print out results to file
+txtpath = os.path.join("/Users/u370166/python-challenge/PyPoll/Resources/results.txt")
+with open(txtpath, 'w') as f:
+    print("Election Results",file=f)
+    print("------------------------------",file=f)
+    print(f'Total Votes: {vote_total}',file=f)
+    print("------------------------------",file=f)
+    print(f'{winner}: {first_place_percentage}% ({first_place_votes})',file=f)
+    print(f'{second_place}: {second_place_percentage}% ({second_place_votes})',file=f)
+    print(f'{third_place}: {third_place_percentage}% ({third_place_votes})',file=f)
+    print(f'{fourth_place}: {fourth_place_percentage}% ({fourth_place_votes})',file=f)
+    print("------------------------------",file=f)
+    print(f'Winner: {winner}',file=f)
+    print("------------------------------",file=f)

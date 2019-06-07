@@ -43,7 +43,7 @@ with open(csvpath, newline="") as csvfile:
 analysis = os.path.join("/Users/u370166/python-challenge/PyBank/Resources/analysis.txt")
 with open(analysis, 'w') as text:
     print("Financial Analysis", file=text)
-    print("----------------------------")
+    print("----------------------------", file=text)
     print(f"Total Months: {total_months}", file=text)
     print(f"Total: ${total_profit_losses}", file=text)
     print(f"Average Change: ${average_profit_losses}", file=text)
