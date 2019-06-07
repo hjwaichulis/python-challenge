@@ -10,22 +10,21 @@ vote_count = []
 election_data = ['1', '2']
 
 # open file 
-for files in election_data:
-    csvpath = os.path.join("/Users/u370166/python-challenge/PyBank/Resources/election_data.csv')
-    with open(csvpath, newline='') as csvfile:
+csvpath = os.path.join("/Users/u370166/python-challenge/PyBank/Resources/election_data.csv")
+with open(csvpath, newline='') as csvfile:
     csv_reader = csv.reader(csvfile, delimiter=',')
     csv_header = next(csv_reader)
 
         # loop
-        for row in csv_reader:
-            votes = votes + 1
-            candidate = row[2]
-            if candidate in candidates:
-                candidate = candidates.index(candidate)
-                vote_count[candidate] = vote_count[candidate] + 1
-            else:
-                candidates.append(candidate)
-                vote_count.append(1)
+for row in csv_reader:
+    votes = votes + 1
+    candidate = row[2]
+        if candidate in candidates:
+            candidate = candidates.index(candidate)
+            vote_count[candidate] = vote_count[candidate] + 1
+        else:
+            candidates.append(candidate)
+            vote_count.append(1)
 
     # variables
     percentages = []

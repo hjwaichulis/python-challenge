@@ -1,66 +1,52 @@
 import os
 import csv
+# Lists
+date=[]
+profit_losses=[]
+profit_losses_change=[]
 
-#Lists
-date = []
-rev_change = []
-profit = []
-
-#Variables
-month = 0
-opening_profit = 0
-profit_change = 0
-total_profit = 0
-
-#Open CSV
+# Open csv
 csvpath = os.path.join("/Users/u370166/python-challenge/PyBank/Resources/budget_data.csv")
-with open(csvpath, newline='') as csvfile:
-    csv_reader = csv.reader(csvfile, delimiter=',')
+with open(csvpath, newline="") as csvfile:
+    csv_reader=csv.reader(csvfile, delimiter=",")
     csv_header = next(csv_reader)
-
-# The total number of months included in the dataset
+ 
+    # Total months
     for row in csv_reader:
-        month = month + 1
         date.append(row[0])
-        
-# The net total amount of "Profit/Losses" over the entire period        
-        profit.append(int(row[1])
-        total_revenue = profit + (int(row[1]))
+        profit_losses.append(float(row[1]))
+        total_months = len(date)
 
-# The average of the changes in "Profit/Losses" over the entire period        
-        close_profit = int(row[1])
-        profit_change = close_profit - opening_profit
-        profit_change.append(profit_change)
-        total_profit = total_profit + profit_change
-        opening_profit = close_profit
-        average = int(total_profit/month)
-
-# The greatest increase in profits (date and amount) over the entire period
-        greatest_increase = max(profit_change)
-        greatest_increase_date = date[profit_change.index(greatest_increase)]
-
-# The greatest decrease in losses (date and amount) over the entire period        
-        greated_decrease = min(profit_change)
-        greated_decrease_date = date[profit_change.index(greated_decrease)]
+    # Total profit and losses    
+    total_profit_losses = sum(profit_losses)
+    
+    # Average profit and losses change
+    for i in range(1,len(profit_losses)):
+            profit_losses_change.append(profit_losses[i] - profit_losses[i-1])
+            average_profit_losses = sum(profit_losses_change)/len(profit_losses_change)
+    # Max and min profit and losses
+    max_profit_losses = max(profit_losses_change)
+    max_profit_losses_date = str(date[profit_losses_change.index(max_profit_losses) +1])
+    min_profit_losses = min(profit_losses_change)
+    min_profit_losses_date = str(date[profit_losses_change.index(min_profit_losses) +1])
 
 # Print 
     print("Financial Analysis")
     print("----------------------------")
-    print(f"Total Months: {month}")
-    print(f"Total: ${total_profit}")
-    print(f"Average Change: ${profit_change}")
-    print(f"Greatest Increase in Profits: {greatest_increase_date} {greatest_increase}")
-    print(f"Greatest Decrease in Profits: {greated_decrease_date} {greated_decrease}")
+    print(f"Total Months: {total_months}")
+    print(f"Total: ${total_profit_losses}")
+    print(f"Average Change: ${average_profit_losses}")
+    print(f"Greatest Increase in Profits: {max_profit_losses_date} {max_profit_losses}")
+    print(f"Greatest Decrease in Profits: {min_profit_losses_date} {min_profit_losses}")
 
-
-#Export
-analysis = os.path.join('..', 'Resources', 'analysis.txt')
+#Export.  Save the f string as a variable then use .write to output in a txt
+analysis = os.path.join("/Users/u370166/python-challenge/PyBank/Resources/analysis.txt")
 with open(analysis, 'w') as text:
-    analysis.write("Financial Analysis")
-    analysis.write("----------------------------")
-    analysis.write(f"Total Months: {month}")
-    analysis.write(f"Total: ${total_profit}")
-    analysis.write(f"Average Change: ${profit_change}")
-    analysis.write(f"Greatest Increase in Profits: {greatest_increase_date} {greatest_increase}")
-    analysis.write(f"Greatest Decrease in Profits: {greated_decrease_date} {greated_decrease}")
+    print("Financial Analysis", file=text)
+    print("----------------------------")
+    print(f"Total Months: {total_months}", file=text)
+    print(f"Total: ${total_profit_losses}", file=text)
+    print(f"Average Change: ${average_profit_losses}", file=text)
+    print(f"Greatest Increase in Profits: {max_profit_losses_date} {max_profit_losses}",file=text)
+    print(f"Greatest Decrease in Profits: {min_profit_losses_date} {min_profit_losses}", file=text)
 
